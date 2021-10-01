@@ -2,8 +2,8 @@
 
 
 function startup() {
-	[ ! -d "simplemail" ] && mkdir simplemail
-	[ ! -d "simplemail/Users" ] && mkdir simplemail/Users
+	mkdir -p simplemail
+	mkdir -p simplemail/Users
 	touch simplemail/userlist
 	touch simplemail/passwdlist
 }
