@@ -32,6 +32,14 @@ function main() {
 
 		case $command in
 
+			createuser)
+				if [ "$arg3" == "" ]; then
+					echo "Erro: Mais de dois parametros como input; Uso: createuser <nome> <senha>"
+				else
+					createuser $arg1 $arg2
+				fi
+				;;
+
 			quit)
 				exit
 				;;
