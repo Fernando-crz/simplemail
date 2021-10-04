@@ -41,6 +41,7 @@ function main() {
 				;;
 
 			quit)
+				echo OK, até mais!
 				exit
 				;;
 		esac
