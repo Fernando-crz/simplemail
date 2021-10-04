@@ -9,9 +9,12 @@ function startup() {
 }
 
 function createuser() {
-	
-	echo username: $1
-	echo password: $2
+	if [ $(grep -i -c -w "$1" simplemail/userlist) -gt 0 ]; then
+		echo Erro: Nome de Usuário indisponível.
+	else
+		echo $1 >> simplemail/userlist
+		echo $2 >> simplemail/passwdlist
+	fi
 }
 
 function passwd() {
@@ -33,10 +36,14 @@ function main() {
 		case $command in
 
 			createuser)
-				if [ "$arg3" == "" ]; then
-					echo "Erro: Mais de dois parametros como input; Uso: createuser <nome> <senha>"
+				if [ ! "$arg3" == "" ]; then
+					echo "Erro: Mais de dois parâmetros como input; Uso: createuser <nome> <senha>"
 				else
-					createuser $arg1 $arg2
+					if [ ${#arg1} -lt 4 ] || [ ${#arg2} -lt 4 ]; then
+						echo "Erro: Usuário e senha devem ter, no mínimo, 4 caracteres."
+					else
+						createuser $arg1 $arg2
+					fi
 				fi
 				;;
 
