@@ -24,7 +24,20 @@ function passwd() {
 }
 
 function login() {
-	echo login!
+	USERNAME=$(grep -n -w -i $1 simplemail/userlist)
+	if [ "$USERNAME" == "" ]; then
+		echo "Erro: Usuário inexistente."
+	else
+		USERNUM=${USERNAME%:*}
+		PASS=$(head -n $USERNUM simplemail/passwdlist | tail -1)
+		if [ $2 != $PASS ]; then
+			echo "Erro: Senha incorreta."
+		else
+			echo $1 > simplemail/.userauth
+		fi
+	fi
+
+
 }
 
 function listusers() {
@@ -60,8 +73,17 @@ function main() {
 				fi
 				;;
 
+			login)
+				if [ ! "$arg3" == "" ]; then
+					echo "Erro: Mais de dois parâmetros como input; Uso: login <nome> <senha>"
+				else
+					login $arg1 $arg2
+				fi
+				;;
+
 			quit)
 				echo OK, até mais!
+				rm -f simplemail/.userauth
 				exit
 				;;
 		esac
