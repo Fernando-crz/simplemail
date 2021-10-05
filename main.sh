@@ -9,7 +9,7 @@ function startup() {
 }
 
 function createuser() {
-	if [ $(grep -i -c -w "$1" simplemail/userlist) -gt 0 ]; then
+	if [ $(grep -i -c -o "\b$1\b" simplemail/userlist) -gt 0 ]; then
 		echo Erro: Nome de Usuário indisponível.
 	else
 		echo $1 >> simplemail/userlist
@@ -26,7 +26,7 @@ function passwd() {
 }
 
 function login() {
-	USERNAME=$(grep -n -w -i $1 simplemail/userlist)
+	USERNAME=$(grep -n -o -i "\b$1\b" simplemail/userlist)
 	if [ "$USERNAME" == "" ]; then
 		echo "Erro: Usuário inexistente."
 	else
@@ -69,7 +69,7 @@ function main() {
 				;;
 
 			listusers)
-				if [ ! "$arg1" == "" ] || [ ! "$arg2" == "" ] || [ ! "$arg3" == "" ]; then
+				if [ ! "$arg1" == "" ] ; then
 					echo "Erro: função não recebe parâmetros; Uso: listusers"
 				else
 					listusers
