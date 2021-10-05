@@ -4,8 +4,8 @@
 function startup() {
 	mkdir -p simplemail
 	mkdir -p simplemail/Users
-	> simplemail/userlist
-	> simplemail/passwdlist
+	>> simplemail/userlist
+	>> simplemail/passwdlist
 }
 
 function createuser() {
