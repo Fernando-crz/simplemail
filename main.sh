@@ -27,6 +27,11 @@ function login() {
 	echo login!
 }
 
+function listusers() {
+	cat simplemail/userlist
+}
+
+
 function main() {
 
 	startup
@@ -44,6 +49,14 @@ function main() {
 					else
 						createuser $arg1 $arg2
 					fi
+				fi
+				;;
+
+			listusers)
+				if [ ! "$arg1" == "" ] || [ ! "$arg2" == "" ] || [ ! "$arg3" == "" ]; then
+					echo "Erro: função não recebe parâmetros; Uso: listusers"
+				else
+					listusers
 				fi
 				;;
 
