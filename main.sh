@@ -14,6 +14,8 @@ function createuser() {
 	else
 		echo $1 >> simplemail/userlist
 		echo $2 >> simplemail/passwdlist
+		mkdir -p simplemail/Users/$1
+		echo 0 > simplemail/Users/$1/msginfo
 	fi
 }
 
