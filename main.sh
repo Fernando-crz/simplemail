@@ -37,6 +37,7 @@ function login() {
 		else
 			echo $1 > simplemail/.userauth
 		fi
+		unset USERNAME USERNUM PASS
 	fi
 
 
