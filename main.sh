@@ -29,9 +29,21 @@ function createuser() {
 }
 
 function passwd() {
-	echo $1
-	echo $2
-	echo $3
+	USERNAME=$(grep -n -o -i "\b$1\b" simplemail/userlist)
+	if [ "$USERNAME" == "" ]; then
+		echo "Erro: Usuário inexistente."
+	else
+		USERNUM=${USERNAME%:*}
+		PASS=$(head -n $USERNUM simplemail/passwdlist | tail -1)
+		if [ "$PASS" != "$2" ]; then
+			echo "Erro: Senha incorreta."
+		else
+			instruction='c\'
+			sed -i "$USERNUM $instruction$3" simplemail/passwdlist
+		fi
+		unset USERNAME USERNUM PASS instruction
+	fi
+
 }
 
 function login() {
@@ -74,6 +86,14 @@ function main() {
 					else
 						createuser $arg1 $arg2
 					fi
+				fi
+				;;
+
+			passwd)
+				if [ ${#arg3} -lt 4 ]; then
+					echo "Erro: Senha deve conter, no mínimo, 4 caracteres."
+				else
+					passwd $arg1 $arg2 $arg3
 				fi
 				;;
 
