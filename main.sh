@@ -2,10 +2,19 @@
 
 
 function startup() {
+	rm -f simplemail/.userauth
 	mkdir -p simplemail
 	mkdir -p simplemail/Users
 	>> simplemail/userlist
 	>> simplemail/passwdlist
+}
+
+function checkauth() {
+	if [ -f simplemail/.userauth ]; then
+		echo 1
+	else
+		echo 0
+	fi
 }
 
 function createuser() {
