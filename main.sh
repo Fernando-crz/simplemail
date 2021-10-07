@@ -75,7 +75,7 @@ function msg(){
 
 	if [ $(checkauth) == 1 ]; then
 		if [ $(grep -i -c -o "\b$1\b" simplemail/userlist) -le 0 ]; then
-			echo Erro: Nome de Usuário inexistente.
+			echo "Erro: Nome de Usuário inexistente."
 		else
 			echo "Qual assunto da mensagem?"
 			read SUBJECT
