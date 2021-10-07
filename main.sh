@@ -53,7 +53,7 @@ function login() {
 	else
 		USERNUM=${USERNAME%:*}
 		PASS=$(head -n $USERNUM simplemail/passwdlist | tail -1)
-		if [ $2 != $PASS ]; then
+		if [ "$2" != "$PASS" ]; then
 			echo "Erro: Senha incorreta."
 		else
 			echo $1 > simplemail/.userauth
