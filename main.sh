@@ -65,7 +65,10 @@ function login() {
 }
 
 function listusers() {
-	cat simplemail/userlist
+	if [ $(checkauth) == 1 ]; then
+		cat simplemail/userlist
+	else
+		echo "Erro: Usuário não logado."
 }
 
 function msg(){
