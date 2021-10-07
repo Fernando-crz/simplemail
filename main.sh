@@ -52,7 +52,7 @@ function login() {
 		echo "Erro: Usuário inexistente."
 	else
 		USERNUM=${USERNAME%:*}
-		PASS=$(head -n $USERNUM simplemail/passwdlist | tail -1)
+		PASS=$(sed "$USERNUM q;d" simplemail/passwdlist)
 		if [ "$2" != "$PASS" ]; then
 			echo "Erro: Senha incorreta."
 		else
