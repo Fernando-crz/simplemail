@@ -69,6 +69,7 @@ function listusers() {
 		cat simplemail/userlist
 	else
 		echo "Erro: Usuário não logado."
+	fi
 }
 
 function msg(){
