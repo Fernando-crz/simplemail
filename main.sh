@@ -68,6 +68,30 @@ function listusers() {
 	cat simplemail/userlist
 }
 
+function msg(){
+
+	if [ $(checkauth) == 1 ]; then
+		if [ $(grep -i -c -o "\b$1\b" simplemail/userlist) -le 0 ]; then
+			echo Erro: Nome de Usuário inexistente.
+		else
+			echo "Qual assunto da mensagem?"
+			read SUBJECT
+			let NAME=$(cat ./simplemail/Users/$1/msginfo)+1
+			echo "Qual a mensagem? Termine com \"CRTL-D\" "
+			echo -e "1\n$(date)\n$(cat simplemail/.userauth)\n$SUBJECT" > ./simplemail/Users/$1/$NAME
+			cat >> ./simplemail/Users/$1/$NAME
+			echo $NAME > ./simplemail/Users/$1/msginfo
+
+		fi
+		unset SUBJECT NAME
+	else
+		echo "Erro: Usuário não logado" 
+	fi
+
+		
+
+}
+
 
 function main() {
 
@@ -110,6 +134,13 @@ function main() {
 					echo "Erro: Mais de dois parâmetros como input; Uso: login <nome> <senha>"
 				else
 					login $arg1 $arg2
+				fi
+				;;
+			msg)
+				if [ ! "$arg2" == "" ]; then
+					echo "Erro: Mais de um parâmetro como input; Uso: msg <user>"
+				else
+					msg $arg1
 				fi
 				;;
 
