@@ -131,24 +131,24 @@ function readmail() {
 		CONT=1
 		NUMBERMAIL=$(ls ./simplemail/Users/$USER/ | wc -w)
 
-		for ARQ in `ls ./simplemail/Users/$USER/`; do
+		if [ $NUM -lt $NUMBERMAIL ]; then
+			for ARQ in `ls ./simplemail/Users/$USER/`; do
 
-			if [ $CONT == $NUMBERMAIL ]; then
-				echo "Numero de mensagem inexistente"
-				break
-			fi
-			if [ $NUM == $CONT ]; then
+				if [ $NUM == $CONT ]; then
 
-				echo "De: $(sed '3q;d' ./simplemail/Users/$USER/$ARQ)"
-				echo "$(sed -n '5,$p' ./simplemail/Users/$USER/$ARQ)"
-				sed -i '1s/.*/0/' ./simplemail/Users/$USER/$ARQ
-				break
+					echo "De: $(sed '3q;d' ./simplemail/Users/$USER/$ARQ)"
+					echo "$(sed -n '5,$p' ./simplemail/Users/$USER/$ARQ)"
+					sed -i '1s/.*/0/' ./simplemail/Users/$USER/$ARQ
+					break
+					
+				fi
 				
-			fi
-			
-			
-			((CONT++))
-		done
+				
+				((CONT++))
+			done
+		else
+			echo "Numero de mensagem inexistente"
+		fi
 		
 		unset CONT USER USERNUM		
 
@@ -167,22 +167,22 @@ function unread() {
 		CONT=1
 		NUMBERMAIL=$(ls ./simplemail/Users/$USER/ | wc -w)
 
-		for ARQ in `ls ./simplemail/Users/$USER/`; do
+		if [ $NUM -lt $NUMBERMAIL ]; then
+			for ARQ in `ls ./simplemail/Users/$USER/`; do
 
-			if [ $CONT == $NUMBERMAIL ]; then
-				echo "Numero de mensagem inexistente"
-				break
-			fi
-			if [ $NUM == $CONT ]; then
+				if [ $NUM == $CONT ]; then
 
-				sed -i '1s/.*/1/' ./simplemail/Users/$USER/$ARQ
-				break
+					sed -i '1s/.*/1/' ./simplemail/Users/$USER/$ARQ
+					break
+					
+				fi
 				
-			fi
-			
-			
-			((CONT++))
-		done
+				
+				((CONT++))
+			done
+		else
+			echo "Numero de mensagem inexistente"
+		fi
 		
 		unset CONT USER USERNUM		
 
@@ -201,29 +201,28 @@ function delete(){
 		CONT=1
 		NUMBERMAIL=$(ls ./simplemail/Users/$USER/ | wc -w)
 
-		for ARQ in `ls ./simplemail/Users/$USER/`; do
+		if [ $NUM -lt $NUMBERMAIL ]; then
+			for ARQ in `ls ./simplemail/Users/$USER/`; do
 
-			if [ $CONT == $NUMBERMAIL ]; then
-				echo "Numero de mensagem inexistente"
-				break
-			fi
-			if [ $NUM == $CONT ]; then
+				if [ $NUM == $CONT ]; then
 
-				rm -f ./simplemail/Users/$USER/$ARQ
-				break
+					rm -f ./simplemail/Users/$USER/$ARQ
+					break
+					
+				fi
 				
-			fi
-			
-			
-			((CONT++))
-		done
+				
+				((CONT++))
+			done
+		else
+			echo "Numero de mensagem inexistente"
+		fi
 		
 		unset CONT USER USERNUM		
 
 	else
 		echo "Erro: Usuário não logado"
 	fi
-
 }
 
 function main() {
