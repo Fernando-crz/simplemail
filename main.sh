@@ -52,8 +52,8 @@ function login() {
 		echo "Erro: Usuário inexistente."
 	else
 		USERNUM=${USERNAME%:*}
-		PASS=$(head -n $USERNUM simplemail/passwdlist | tail -1)
-		if [ $2 != $PASS ]; then
+		PASS=$(sed "$USERNUM q;d" simplemail/passwdlist)
+		if [ "$2" != "$PASS" ]; then
 			echo "Erro: Senha incorreta."
 		else
 			echo $1 > simplemail/.userauth
@@ -65,14 +65,18 @@ function login() {
 }
 
 function listusers() {
-	cat simplemail/userlist
+	if [ $(checkauth) == 1 ]; then
+		cat simplemail/userlist
+	else
+		echo "Erro: Usuário não logado."
+	fi
 }
 
 function msg(){
 
 	if [ $(checkauth) == 1 ]; then
 		if [ $(grep -i -c -o "\b$1\b" simplemail/userlist) -le 0 ]; then
-			echo Erro: Nome de Usuário inexistente.
+			echo "Erro: Nome de Usuário inexistente."
 		else
 			echo "Qual assunto da mensagem?"
 			read SUBJECT
