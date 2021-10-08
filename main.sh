@@ -92,6 +92,135 @@ function msg(){
 
 }
 
+function list() {
+	if [ $(checkauth) == 1 ]; then
+
+		USER=$(cat simplemail/.userauth)
+		CONT=1
+
+		for ARQ in `ls ./simplemail/Users/$USER/`; do
+			
+			if [ ! $ARQ == "msginfo" ]; then
+
+				READ=" "
+				if [ $(head -n 1 ./simplemail/Users/$USER/$ARQ) == 1 ]; then
+					READ="N"
+				fi
+				echo "$CONT | $READ | $(sed '2q;d' ./simplemail/Users/$USER/$ARQ) | $(sed '3q;d' ./simplemail/Users/$USER/$ARQ) | Assunto: $(sed '4q;d' ./simplemail/Users/$USER/$ARQ)"
+			fi
+			((CONT++))
+		done
+
+		unset CONT USER
+	else
+		echo "Erro: Usuário não logado"
+	fi
+}
+
+
+function readmail() {
+
+	if [ $(checkauth) == 1 ]; then
+
+		USER=$(cat simplemail/.userauth)
+		NUM=$1
+		CONT=1
+		NUMBERMAIL=$(ls ./simplemail/Users/$USER/ | wc -w)
+
+		for ARQ in `ls ./simplemail/Users/$USER/`; do
+
+			if [ $CONT == $NUMBERMAIL ]; then
+				echo "Numero de mensagem inexistente"
+				break
+			fi
+			if [ $NUM == $CONT ]; then
+
+				echo "De: $(sed '3q;d' ./simplemail/Users/$USER/$ARQ)"
+				echo "$(sed -n '5,$p' ./simplemail/Users/$USER/$ARQ)"
+				sed -i '1s/.*/0/' ./simplemail/Users/$USER/$ARQ
+				break
+				
+			fi
+			
+			
+			((CONT++))
+		done
+		
+		unset CONT USER USERNUM		
+
+	else
+		echo "Erro: Usuário não logado"
+	fi
+
+}
+
+function unread() {
+
+	if [ $(checkauth) == 1 ]; then
+
+		USER=$(cat simplemail/.userauth)
+		NUM=$1
+		CONT=1
+		NUMBERMAIL=$(ls ./simplemail/Users/$USER/ | wc -w)
+
+		for ARQ in `ls ./simplemail/Users/$USER/`; do
+
+			if [ $CONT == $NUMBERMAIL ]; then
+				echo "Numero de mensagem inexistente"
+				break
+			fi
+			if [ $NUM == $CONT ]; then
+
+				sed -i '1s/.*/1/' ./simplemail/Users/$USER/$ARQ
+				break
+				
+			fi
+			
+			
+			((CONT++))
+		done
+		
+		unset CONT USER USERNUM		
+
+	else
+		echo "Erro: Usuário não logado"
+	fi
+
+}
+
+function delete(){
+
+	if [ $(checkauth) == 1 ]; then
+
+		USER=$(cat simplemail/.userauth)
+		NUM=$1
+		CONT=1
+		NUMBERMAIL=$(ls ./simplemail/Users/$USER/ | wc -w)
+
+		for ARQ in `ls ./simplemail/Users/$USER/`; do
+
+			if [ $CONT == $NUMBERMAIL ]; then
+				echo "Numero de mensagem inexistente"
+				break
+			fi
+			if [ $NUM == $CONT ]; then
+
+				rm -f ./simplemail/Users/$USER/$ARQ
+				break
+				
+			fi
+			
+			
+			((CONT++))
+		done
+		
+		unset CONT USER USERNUM		
+
+	else
+		echo "Erro: Usuário não logado"
+	fi
+
+}
 
 function main() {
 
@@ -143,11 +272,41 @@ function main() {
 					msg $arg1
 				fi
 				;;
-
+			list)
+				if [ ! "$arg1" == "" ]; then
+					echo "Erro: Parâmetro desnecessário como input; Uso: list"
+				else
+					list
+				fi
+				;;
+			read)
+				if [ ! "$arg2" == "" ]; then
+					echo "Erro: Mais de um parâmetro como input; Uso: read <msgnum>"
+				else
+					readmail $arg1
+				fi
+				;;
+			unread)
+				if [ !"$arg2" == "" ]; then
+					echo "Erro: Mais de um parâmetro como input; Uso: unread <msgnum>"
+				else
+					unread $arg1
+				fi
+				;;
+			delete)
+				if [ !"$arg2" == "" ]; then
+					echo "Erro: Mais de um parâmetro como input; Uso: delete <msgnum>"
+				else
+					delete $arg1
+				fi
+				;;
 			quit)
 				echo OK, até mais!
 				rm -f simplemail/.userauth
 				exit
+				;;
+			*)
+				echo "Erro: Comando Inexistente."
 				;;
 		esac
 	done
