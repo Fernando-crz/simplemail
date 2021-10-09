@@ -1,12 +1,29 @@
 #!/bin/bash
 
 
+
+
 function startup() {
 	rm -f simplemail/.userauth
 	mkdir -p simplemail
 	mkdir -p simplemail/Users
 	>> simplemail/userlist
 	>> simplemail/passwdlist
+	echo '     _______. __  .___  ___. .______    __       
+    /       ||  | |   \/   | |   _  \  |  |     |   ____|
+   |   (----`|  | |  \  /  | |  |_)  | |  |     |  |__   
+    \   \    |  | |  |\/|  | |   ___/  |  |     |   __|  
+.----)   |   |  | |  |  |  | |  |      |  `----.|  |____ 
+|_______/    |__| |__|  |__| | _|      |_______||_______|
+                                                         
+	   .___  ___.      ___       __   __                     
+	   |   \/   |     /   \     |  | |  |                    
+	   |  \  /  |    /  ^  \    |  | |  |                    
+	   |  |\/|  |   /  /_\  \   |  | |  |                    
+	   |  |  |  |  /  _____  \  |  | |  `----.               
+	   |__|  |__| /__/     \__\ |__| |_______|               
+                                                         '
+
 }
 
 function checkauth() {
@@ -147,7 +164,7 @@ function readmail() {
 				((CONT++))
 			done
 		else
-			echo "Número de mensagem inexistente"
+			echo "Numero de mensagem inexistente"
 		fi
 		
 		unset CONT USER USERNUM		
@@ -181,7 +198,7 @@ function unread() {
 				((CONT++))
 			done
 		else
-			echo "Número de mensagem inexistente"
+			echo "Numero de mensagem inexistente"
 		fi
 		
 		unset CONT USER USERNUM		
@@ -215,7 +232,7 @@ function delete(){
 				((CONT++))
 			done
 		else
-			echo "Número de mensagem inexistente"
+			echo "Numero de mensagem inexistente"
 		fi
 		
 		unset CONT USER USERNUM		
