@@ -147,7 +147,7 @@ function readmail() {
 				((CONT++))
 			done
 		else
-			echo "Numero de mensagem inexistente"
+			echo "Número de mensagem inexistente"
 		fi
 		
 		unset CONT USER USERNUM		
@@ -181,7 +181,7 @@ function unread() {
 				((CONT++))
 			done
 		else
-			echo "Numero de mensagem inexistente"
+			echo "Número de mensagem inexistente"
 		fi
 		
 		unset CONT USER USERNUM		
@@ -215,7 +215,7 @@ function delete(){
 				((CONT++))
 			done
 		else
-			echo "Numero de mensagem inexistente"
+			echo "Número de mensagem inexistente"
 		fi
 		
 		unset CONT USER USERNUM		
